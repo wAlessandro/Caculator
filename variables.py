@@ -1,5 +1,5 @@
 from pathlib import Path
-"""asfdiusdfsfdfs"""
+
 __all__ = [
     "ICONDIR",
     "SMALL_FONT_SIZE",
