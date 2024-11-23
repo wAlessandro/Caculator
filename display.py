@@ -24,18 +24,6 @@ class ResultLabel(QLabel):
     def configStyle(self):
         self.setStyleSheet(f"font-size: {BIG_FONT_SIZE}px")
 
-def resulter(display:LineEdit,label:QLabel):
-    """resulter sets the display's result on label"""
-    try:
-       result = eval(display.text())
-       label.setText(str(result))
-    except (NameError,SyntaxError,ValueError):
-        alltext = display.text()
-        for i in alltext:
-            if i not in ALLOWEDCHARS:
-                display.setText(alltext.replace(i, ""))
-
-
 class Layout(QPushButton):
     def __init__(self,window,parent= None):
         super().__init__(parent)
@@ -52,6 +40,13 @@ class Layout(QPushButton):
             '4','5','6',
             '1','2','3',
             ".",'0',]
+        self.textMemory = ""
+
+    def textMemory(self):
+        return self.textMemory
+    # def textMemoryUpdate(self,line):
+    #     self.textMemory
+    #     print(self.textMemory)
     def insertToGLayout(self,widget, _row=0, _column=0, textconnect:LineEdit=None):
         """addToGLayout checks the widget's instance, and related on this, it places on
         different grid_layout's row and column. On the buttons, it place on the grid
@@ -62,11 +57,14 @@ class Layout(QPushButton):
         elif isinstance(widget, ResultLabel):
             self.gridLayout.addWidget(widget, 5, 2)
         elif isinstance(widget, QPushButton):
-            _text_index = 0
-            _button_name_index = 0
+            self.textMemory = ""
+            # textconnect.textChanged.connect(lambda: self.textMemoryUpdate(textconnect))
+
+            textIndex = 0
+            buttonNameIndex = 0
             for _row in range(3,9):
-                buttonSing = self._opButtonSing[_button_name_index]
-                buttonId = self._opButtonId[_button_name_index]
+                buttonSing = self._opButtonSing[buttonNameIndex]
+                buttonId = self._opButtonId[buttonNameIndex]
                 self.opButton = QPushButton(buttonSing)
                 self.opButton.setObjectName(buttonId)
                 self.opButton.clicked.connect(
@@ -84,19 +82,19 @@ class Layout(QPushButton):
                     self.gridLayout.addWidget(self.opButton, _row,6,1,1)
                     self.opButton.setStyleSheet(
                         f"font-size:{BUTTONFONTSIZE}; background:{OPBUTTONSCOLOR}; border-radius:{BORDERRADIUS}")
-                _button_name_index += 1
+                buttonNameIndex += 1
                 for _column in range(3,6):
-                    if _text_index < len(self._buttonLayout):
-                        if _text_index == self._buttonLayout.index('0'):
+                    if textIndex < len(self._buttonLayout):
+                        if textIndex == self._buttonLayout.index('0'):
                             _column = 4
-                        self.number_text = self._buttonLayout[_text_index]    
+                        self.number_text = self._buttonLayout[textIndex]    
                         self.button = QPushButton(self.number_text)
                         self.button.setStyleSheet(
                             f"font-size:{BUTTONFONTSIZE}; background:{BUTTONSCOLOR}; border-radius:{BORDERRADIUS}")
                         self.button.clicked.connect(
                             lambda checked, nt=self.number_text:self._buttonClick(textconnect,nt))
                         self.gridLayout.addWidget(self.button, _row, _column, 1 ,1)
-                        _text_index += 1
+                        textIndex += 1
         else:
             self.gridLayout.addWidget(widget, _row,_column)
     def _operationButton(self, button:QPushButton,toconnect:LineEdit):
@@ -105,17 +103,37 @@ class Layout(QPushButton):
         at toconnect paramter
         """
         for i in range(0,len(self._opButtonId)):
-            if button.objectName() == self._opButtonId[i]:
-                toconnect.insert(self._opButtonSing[i])
+            buttonSing = self._opButtonSing[i]
+            buttonId = self._opButtonId[i]
+            if button.objectName() == buttonId:
+                toconnect.setText("")
+                self.textMemory += buttonSing
+
             elif button.objectName() == "del":
                 toconnect.setText("")
+                self.textMemory = ""
             elif button.objectName() == "equal":
-                toconnect.setText(str(eval(toconnect.text())))
-    def _buttonClick(self,toconnect:LineEdit|ResultLabel, nt):
+                result = eval(self.textMemory)
+                toconnect.setText(str(result))
+        print(self.textMemory)
+    def _buttonClick(self,toconnect:LineEdit|ResultLabel, numbertext):
         """_buttonClick insert nt's text at toconnect"""
-        toconnect.insert(nt)
+        self.textMemory += numbertext
+        toconnect.insert(numbertext)
     def _isId(self, button: QPushButton, nameid):
         """_IsId returns True or False if the button's ObjectName() is equals nameid"""
         if button.objectName() == nameid:
             return True
         return False
+    
+def resulter(display:LineEdit,label:QLabel):
+    """resulter sets the display's result on label"""
+    try:
+        result = eval(str(Layout.textMemory(Layout)))
+        print(result)
+        label.setText(str(result))
+    except (NameError,SyntaxError,ValueError):
+        alltext = display.text()
+        for i in alltext:
+            if i not in ALLOWEDCHARS:
+                display.setText(alltext.replace(i, ""))

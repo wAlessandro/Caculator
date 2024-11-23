@@ -16,11 +16,13 @@ if __name__ == "__main__":
     grid = Layout(window)
     text_box = LineEdit()
     grid.insertToGLayout(text_box)
+
     text_box.textChanged.connect(lambda: resulter(text_box, result_label))
+    
     result_label = ResultLabel()
     grid.insertToGLayout(result_label)
     
-    buttons = QPushButton()
+    buttons = QPushButton() 
     grid.insertToGLayout(buttons, textconnect=text_box)
     window.adjustFixedSize()
     window.show()
