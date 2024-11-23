@@ -39,13 +39,16 @@ class Window(QMainWindow):
                     self._operationButton(button,toconnect=textconnect))
                 if self._isId(self.op_button, "del"):
                     self.grid_layout.addWidget(self.op_button, 6,5,1,1)
-                    self.op_button.setStyleSheet(f"font-size:{BUTTONFONTSIZE}; background: red; border-radius:{BORDERRADIUS}")
+                    self.op_button.setStyleSheet(
+                        f"font-size:{BUTTONFONTSIZE}; background: red; border-radius:{BORDERRADIUS}")
                 elif self._isId(self.op_button, "equal"):
                     self.grid_layout.addWidget(self.op_button, 7,3,1,4)
-                    self.op_button.setStyleSheet(f"font-size:{BUTTONFONTSIZE}; background: {OPBUTTONSCOLOR}; border-radius:{BORDERRADIUS}")
+                    self.op_button.setStyleSheet(
+                        f"font-size:{BUTTONFONTSIZE}; background: {OPBUTTONSCOLOR}; border-radius:{BORDERRADIUS}")
                 else:
                     self.grid_layout.addWidget(self.op_button, _row,6,1,1)
-                    self.op_button.setStyleSheet(f"font-size:{BUTTONFONTSIZE}; background:{OPBUTTONSCOLOR}; border-radius:{BORDERRADIUS}")
+                    self.op_button.setStyleSheet(
+                        f"font-size:{BUTTONFONTSIZE}; background:{OPBUTTONSCOLOR}; border-radius:{BORDERRADIUS}")
                 _button_name_index += 1
                 for _column in range(3,6):
                     if _text_index < len(_buttonLayout):
