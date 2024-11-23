@@ -1,5 +1,5 @@
-from window import Window
-from display import LineEdit, ResultLabel, resulter
+from mainwindow import Window
+from display import LineEdit, ResultLabel, resulter,Layout
 from variables import ICONDIR
 from PySide6.QtWidgets import(
     QApplication,QPushButton,
@@ -13,13 +13,15 @@ if __name__ == "__main__":
     window.setWindowIcon(icon)
     app.setWindowIcon(icon)
 
+    grid = Layout(window)
     text_box = LineEdit()
-    window.addWidgetToGLayout(text_box)
+    grid.insertToGLayout(text_box)
     text_box.textChanged.connect(lambda: resulter(text_box, result_label))
     result_label = ResultLabel()
-    window.addWidgetToGLayout(result_label)
+    grid.insertToGLayout(result_label)
+    
     buttons = QPushButton()
-    window.addWidgetToGLayout(buttons, textconnect=text_box)
+    grid.insertToGLayout(buttons, textconnect=text_box)
     window.adjustFixedSize()
     window.show()
     app.exec()
