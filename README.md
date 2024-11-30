@@ -1,3 +1,4 @@
 # Caculator
 trying to make a dynamic and organized code in a Pyside6 calculator project
-![image](https://github.com/user-attachments/assets/5a5b4bb8-12b8-4c84-8a4b-3e44d4bcf06d)
+![Screenshot_3](https://github.com/user-attachments/assets/ab7276bc-307f-42bf-92e2-7a0b7d4fcd73)
+
