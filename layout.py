@@ -1,6 +1,6 @@
-from variables import  (BUTTONSTYLESHEET,
+from styling import  (BUTTONSTYLESHEET,
                         OPERATORBUTTONSTYLESHEET,DELETEBUTTONSTYLESHEET,
-                        EQUALSBUTTONSTYLESHEET)
+                        EQUALSBUTTONSTYLESHEET,BUTTONFONTS)
 
 from PySide6.QtWidgets import QPushButton, QWidget, QGridLayout
 from display import LineEdit,ResultLabel
@@ -15,6 +15,7 @@ class Layout(QPushButton):
         centralWidget = QWidget()
         self.window.setCentralWidget(centralWidget)
         self.gridLayout:QGridLayout = QGridLayout()
+        self.gridLayout.setSpacing(3)
         centralWidget.setLayout(self.gridLayout)
         self.display:LineEdit = display
         self.label = label
@@ -50,7 +51,7 @@ class Layout(QPushButton):
             widget, LineEdit):
             self.gridLayout.addWidget(
                 widget,
-                3,2,
+                3, 2,
                 1, 1,
                 )
         elif isinstance(widget, ResultLabel):
@@ -79,6 +80,7 @@ class Layout(QPushButton):
                         self.number_text = self._buttonLayout[textIndex]
                         self.button = QPushButton(self.number_text)
                         self.button.setStyleSheet(BUTTONSTYLESHEET)
+                        self.button.setFont(BUTTONFONTS)
                         self.button.clicked.connect(
                             lambda checked, nt=self.number_text:
                             self._buttonClick(nt),)
@@ -123,7 +125,6 @@ class Layout(QPushButton):
             if displayText == "":
                 return
         self.display.insert(numbertext)
-        print(self.equation)
     def _mathTextGetter(self, text):
         if (self._left is None):
             self._left = text
@@ -133,7 +134,6 @@ class Layout(QPushButton):
         self._right = self.display.text()
         self.equation = f"{self._left} {self._center} {self._right}"
         self.label.setText(self.equation)
-        print(self.equation)
     def _configOperationButton(self, button:QPushButton,):
         """_operationButton gets the button's Object name
         in paramter and checks if are equals plus/minus/mult/div/del.
@@ -167,18 +167,21 @@ class Layout(QPushButton):
                                 1,1
                 )
             self.opButton.setStyleSheet(DELETEBUTTONSTYLESHEET)
+            self.opButton.setFont(BUTTONFONTS)
         elif self._isId(button, "equal"):
             self.gridLayout.addWidget(self.opButton,
                                       7,3,
                                       1,4
                                     )
             self.opButton.setStyleSheet(EQUALSBUTTONSTYLESHEET)
+            self.opButton.setFont(BUTTONFONTS)
         else:
             self.gridLayout.addWidget(button,
                                     row,6, 
                                     1,1
                                     )
             self.opButton.setStyleSheet(OPERATORBUTTONSTYLESHEET)
+            self.opButton.setFont(BUTTONFONTS)
     def _isId(self, button: QPushButton, nameid,):
         """_IsId returns True or False 
         if the button's ObjectName() is equals nameid"""

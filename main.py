@@ -1,7 +1,7 @@
 from mainwindow import Window
 from display import LineEdit, ResultLabel
 from layout import Layout
-from variables import ICONDIR
+from styling import ICONDIR
 from PySide6.QtWidgets import(
     QApplication,QPushButton,
     )
