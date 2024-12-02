@@ -28,12 +28,17 @@ BUTTONFONTSIZE = '40px'
 BUTTONFONTS = "Roboto Condensed"
 
 BUTTONSTYLESHEET = \
-    f"font-size:{BUTTONFONTSIZE}; background:{BUTTONSCOLOR}; border-radius:{BORDERRADIUS};"
+    f"""font-size:{BUTTONFONTSIZE};
+      background:{BUTTONSCOLOR}; border-radius:{BORDERRADIUS};"""
 OPERATORBUTTONSTYLESHEET = \
-    f"font-size:{BUTTONFONTSIZE}; background:{OPBUTTONSCOLOR}; border-radius:{BORDERRADIUS}"
+    f"""font-size:{BUTTONFONTSIZE};
+      background:{OPBUTTONSCOLOR}; border-radius:{BORDERRADIUS}"""
 EQUALSBUTTONSTYLESHEET = \
-    f"font-size:{BUTTONFONTSIZE}; background: black; border-radius:{BORDERRADIUS}; color: white"
+    f"""font-size:{BUTTONFONTSIZE};
+      background: black; border-radius:{BORDERRADIUS}; color: white"""
 DELETEBUTTONSTYLESHEET = \
-    f"font-size:{BUTTONFONTSIZE}; background: red; border-radius:{BORDERRADIUS}"
+    f"""font-size:{BUTTONFONTSIZE};
+      background: red; border-radius:{BORDERRADIUS}"""
 BACKBUTTONSTYLESHEET = \
-    f"font-size:{BUTTONFONTSIZE}; background: grey; border-radius:{BORDERRADIUS}; color: black"
+    f"""font-size:{BUTTONFONTSIZE};
+      background: grey; border-radius:{BORDERRADIUS}; color: black"""
