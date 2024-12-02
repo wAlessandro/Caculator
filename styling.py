@@ -35,3 +35,5 @@ EQUALSBUTTONSTYLESHEET = \
     f"font-size:{BUTTONFONTSIZE}; background: black; border-radius:{BORDERRADIUS}; color: white"
 DELETEBUTTONSTYLESHEET = \
     f"font-size:{BUTTONFONTSIZE}; background: red; border-radius:{BORDERRADIUS}"
+BACKBUTTONSTYLESHEET = \
+    f"font-size:{BUTTONFONTSIZE}; background: grey; border-radius:{BORDERRADIUS}; color: black"

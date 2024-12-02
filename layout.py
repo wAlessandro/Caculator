@@ -1,6 +1,6 @@
 from styling import  (BUTTONSTYLESHEET,
                         OPERATORBUTTONSTYLESHEET,DELETEBUTTONSTYLESHEET,
-                        EQUALSBUTTONSTYLESHEET,BUTTONFONTS)
+                        EQUALSBUTTONSTYLESHEET,BUTTONFONTS, BACKBUTTONSTYLESHEET)
 
 from PySide6.QtWidgets import QPushButton, QWidget, QGridLayout
 from display import LineEdit,ResultLabel
@@ -22,12 +22,13 @@ class Layout(QPushButton):
         self._opButtonId = [
             "plus","minus",
             "mult","div",
-            "del",'equal'
+            "del",'equal',"back"
             ]
         self._opButtonSing = [
             "+","-",
             "*","/",
-            "C","="
+            "C","=",
+            "<"
             ]
         self._buttonLayout = [
             '7','8','9',
@@ -63,7 +64,7 @@ class Layout(QPushButton):
         elif isinstance(widget, QPushButton):
             textIndex = 0
             buttonNameIndex = 0
-            for row in range(3,9):
+            for row in range(3,len(self._opButtonId)+3):
                 buttonSing = self._opButtonSing[buttonNameIndex]
                 buttonId = self._opButtonId[buttonNameIndex]
                 self.opButton = QPushButton(buttonSing)
@@ -125,14 +126,10 @@ class Layout(QPushButton):
             if displayText == "":
                 return
         self.display.insert(numbertext)
-    def _mathTextGetter(self, text):
+    def _leftSideText(self, text):
         if (self._left is None):
             self._left = text
             self.equation = f"{self._left} {self._center} {self._right}"
-        self.label.setText(self.equation)
-    def _righSideUpdating(self):
-        self._right = self.display.text()
-        self.equation = f"{self._left} {self._center} {self._right}"
         self.label.setText(self.equation)
     def _configOperationButton(self, button:QPushButton,):
         """_operationButton gets the button's Object name
@@ -147,9 +144,12 @@ class Layout(QPushButton):
             if (button.objectName() == "equal"):
                 self._resulter()
                 return
+            if (button.objectName() == "back"):
+                self.display.backspace()
+                return
         buttonIdList = [
                         idd for idd in self._opButtonId if idd != "del"
-                        and idd != "equal"
+                        and idd != "equal" and idd != "back"
                          ]
         for a in range(0, len(buttonIdList)):
             buttonsing = self._opButtonSing[a]
@@ -158,30 +158,40 @@ class Layout(QPushButton):
                 self.equation = f"{self._left} {self._center} {self._right}"
                 self.label.setText(self.equation)
             self.display.clear()
-        self._mathTextGetter(displayText)
+        self._leftSideText(displayText)
     def _configOpButtonStyle(self, button, row,):
-        if self._isId(
-            button, "del"):
+        if self._isId(button, "del"):
             self.gridLayout.addWidget(
-                self.opButton, 6,5,
+                                button, 6,5,
                                 1,1
                 )
-            self.opButton.setStyleSheet(DELETEBUTTONSTYLESHEET)
-            self.opButton.setFont(BUTTONFONTS)
-        elif self._isId(button, "equal"):
-            self.gridLayout.addWidget(self.opButton,
-                                      7,3,
-                                      1,4
+            button.setStyleSheet(DELETEBUTTONSTYLESHEET)
+            button.setFont(BUTTONFONTS)
+        elif self._isId(button, "back"):
+            self.gridLayout.addWidget(
+                                    button,
+                                    7,3,
+                                    1,1
                                     )
-            self.opButton.setStyleSheet(EQUALSBUTTONSTYLESHEET)
-            self.opButton.setFont(BUTTONFONTS)
+            button.setFont(BUTTONFONTS)
+            button.setStyleSheet(BACKBUTTONSTYLESHEET)
+        elif self._isId(button, "equal"):
+            self.gridLayout.addWidget(
+                                    button,
+                                    7,4,
+                                    1,4
+                                    )
+            button.setStyleSheet(EQUALSBUTTONSTYLESHEET)
+            button.setFont(BUTTONFONTS)
+        
         else:
-            self.gridLayout.addWidget(button,
+            self.gridLayout.addWidget(
+                                    button,
                                     row,6, 
                                     1,1
                                     )
-            self.opButton.setStyleSheet(OPERATORBUTTONSTYLESHEET)
-            self.opButton.setFont(BUTTONFONTS)
+            button.setStyleSheet(OPERATORBUTTONSTYLESHEET)
+            button.setFont(BUTTONFONTS)
     def _isId(self, button: QPushButton, nameid,):
         """_IsId returns True or False 
         if the button's ObjectName() is equals nameid"""

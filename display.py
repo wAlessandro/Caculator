@@ -12,12 +12,14 @@ class LineEdit(QLineEdit):
         super().__init__(*args, **kwargs)
         self.configStyle()
         self.textChanged.connect(self._alllowedChars)
-
+        self.setReadOnly(True)
     def _alllowedChars(self):
         alltext = self.text()
         for i in alltext:
             if i not in ALLOWEDCHARS:
                 self.setText(alltext.replace(i, ""))
+        if alltext.count(".") > 1:
+            self.setText(alltext.replace(".", ""))
     def configStyle(self) -> None:
         self.setStyleSheet(
             f"font-size: {BIG_FONT_SIZE}px; color: white; background:black"
