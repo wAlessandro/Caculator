@@ -2,8 +2,8 @@ from mainwindow import Window
 from display import LineEdit, ResultLabel
 from layout import Layout
 from styling import ICONDIR
-from PySide6.QtWidgets import(
-    QApplication,QPushButton,
+from PySide6.QtWidgets import (
+    QApplication,QPushButton, QMessageBox
     )
 from PySide6.QtGui import QIcon
 
@@ -13,7 +13,7 @@ if __name__ == "__main__":
     icon = QIcon(ICONDIR)
     window.setWindowIcon(icon)
     app.setWindowIcon(icon)
-    
+
     resultLabel = ResultLabel()
     textLine = LineEdit()
     buttons = QPushButton()

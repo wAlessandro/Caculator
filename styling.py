@@ -10,7 +10,7 @@ __all__ = [
 ]
 
 ICONDIR = str(Path(__file__).parent / "assets/images/calculatoricon.ico")
-ALLOWEDCHARS = "1234567890-+/*."
+ALLOWEDCHARS = "1234567890."
 #Sizing
 SMALL_FONT_SIZE = 15
 MEDIUM_FONT_SIZE = 30
@@ -27,18 +27,24 @@ BORDERRADIUS = ""
 BUTTONFONTSIZE = '40px'
 BUTTONFONTS = "Roboto Condensed"
 
-BUTTONSTYLESHEET = \
+BUTTONSTYLESHEET = (
     f"""font-size:{BUTTONFONTSIZE};
       background:{BUTTONSCOLOR}; border-radius:{BORDERRADIUS};"""
-OPERATORBUTTONSTYLESHEET = \
+      )
+OPERATORBUTTONSTYLESHEET = (
     f"""font-size:{BUTTONFONTSIZE};
       background:{OPBUTTONSCOLOR}; border-radius:{BORDERRADIUS}"""
-EQUALSBUTTONSTYLESHEET = \
+      )
+EQUALSBUTTONSTYLESHEET = (
     f"""font-size:{BUTTONFONTSIZE};
       background: black; border-radius:{BORDERRADIUS}; color: white"""
-DELETEBUTTONSTYLESHEET = \
+      )
+
+DELETEBUTTONSTYLESHEET = (
     f"""font-size:{BUTTONFONTSIZE};
       background: red; border-radius:{BORDERRADIUS}"""
-BACKBUTTONSTYLESHEET = \
+      )
+BACKBUTTONSTYLESHEET = (
     f"""font-size:{BUTTONFONTSIZE};
       background: grey; border-radius:{BORDERRADIUS}; color: black"""
+      )

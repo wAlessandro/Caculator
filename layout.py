@@ -1,9 +1,11 @@
-from styling import  (BUTTONSTYLESHEET,
-                        OPERATORBUTTONSTYLESHEET,DELETEBUTTONSTYLESHEET,
-                        EQUALSBUTTONSTYLESHEET,BUTTONFONTS, BACKBUTTONSTYLESHEET)
+from styling import  (
+    BUTTONSTYLESHEET,
+    OPERATORBUTTONSTYLESHEET,DELETEBUTTONSTYLESHEET,
+    EQUALSBUTTONSTYLESHEET,BUTTONFONTS, BACKBUTTONSTYLESHEET
+    )
 
-from PySide6.QtWidgets import QPushButton, QWidget, QGridLayout
-from display import LineEdit,ResultLabel
+from PySide6.QtWidgets import QPushButton, QGridLayout
+from display import LineEdit, ResultLabel
 from mainwindow import Window
 
 class Layout(QPushButton):
@@ -12,11 +14,9 @@ class Layout(QPushButton):
             label:ResultLabel,parent= None,):
         super().__init__(parent)
         self.window:Window = window
-        centralWidget = QWidget()
-        self.window.setCentralWidget(centralWidget)
         self.gridLayout:QGridLayout = QGridLayout()
         self.gridLayout.setSpacing(3)
-        centralWidget.setLayout(self.gridLayout)
+        self.window.centralWidget.setLayout(self.gridLayout)
         self.display:LineEdit = display
         self.label = label
         self._opButtonId = [
@@ -40,7 +40,30 @@ class Layout(QPushButton):
         self._right = None
         self._center = None
         self.equation = ""
-
+        self.window.resultRequested.connect(
+            lambda: self._resulter()
+            )
+        self.window.deleteRequested.connect(
+            lambda: self._clear()
+            )
+        self.window.operationRequested.connect(
+            lambda text: self.addOperationByKeyboard(text)
+            )
+        self.window.numericRequested.connect(
+            lambda text: self.addNumericByKeyboard(text)
+            )
+    def addNumericByKeyboard(self, text):
+        if text == "." and self.display.text() == "":
+            return
+        self.display.insert(text)
+    def addOperationByKeyboard(self, text):
+        displayText = self.display.text()
+        if displayText is not "":
+            self._left = displayText
+            self._center = text
+            self.equation = f"{self._left} {self._center} {self._right}"
+            self.label.setText(self.equation)
+            self.display.clear()
     def insertToGLayout(
                         self, widget,
                         row=0, column=0,):
@@ -111,20 +134,18 @@ class Layout(QPushButton):
         self._right = None
         print("result=",result)
     def _clear(self):
-        
         self.display.clear()
         self._left = None
         self._center = None
         self._right = None
         self.equation = ""
-        print("cleaning")
-        print(self.equation)  
+        self.label.setText(self.equation)  
     def _buttonClick(self, numbertext,):
         """_buttonClick insert nt's text at display"""
         displayText = self.display.text()
-        if numbertext == ".":
-            if displayText == "":
-                return
+        if (numbertext == "." and
+                displayText == ""):
+            return
         self.display.insert(numbertext)
     def _leftSideText(self, text):
         if (self._left is None):
@@ -137,16 +158,15 @@ class Layout(QPushButton):
         After that, the function insert or remove the button's sing at display
         """
         displayText = self.display.text()
-        for i in range(0,2):
-            if (button.objectName() == "del"):
-                self._clear()
-                return
-            if (button.objectName() == "equal"):
-                self._resulter()
-                return
-            if (button.objectName() == "back"):
-                self.display.backspace()
-                return
+        if (button.objectName() == "del"):
+            self.window.deleteRequested.emit()
+            return
+        if (button.objectName() == "equal"):
+            self.window.resultRequested.emit()
+            return
+        if (button.objectName() == "back"):
+            self.display.backspace()
+            return
         buttonIdList = [
                         idd for idd in self._opButtonId if idd != "del"
                         and idd != "equal" and idd != "back"
@@ -157,14 +177,14 @@ class Layout(QPushButton):
                 self._center = buttonsing
                 self.equation = f"{self._left} {self._center} {self._right}"
                 self.label.setText(self.equation)
-            self.display.clear()
+                self.display.clear()
         self._leftSideText(displayText)
     def _configOpButtonStyle(self, button, row,):
         if self._isId(button, "del"):
             self.gridLayout.addWidget(
                                 button, 6,5,
                                 1,1
-                )
+                                )
             button.setStyleSheet(DELETEBUTTONSTYLESHEET)
             button.setFont(BUTTONFONTS)
         elif self._isId(button, "back"):
