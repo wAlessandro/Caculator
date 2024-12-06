@@ -3,10 +3,10 @@ from display import LineEdit, ResultLabel
 from layout import Layout
 from styling import ICONDIR
 from PySide6.QtWidgets import (
-    QApplication,QPushButton, QMessageBox
+    QApplication,QPushButton,
     )
 from PySide6.QtGui import QIcon
-
+#negative numbers implemention
 if __name__ == "__main__":
     app = QApplication()
     window = Window()

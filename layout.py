@@ -1,10 +1,6 @@
-from styling import  (
-    BUTTONSTYLESHEET,
-    OPERATORBUTTONSTYLESHEET,DELETEBUTTONSTYLESHEET,
-    EQUALSBUTTONSTYLESHEET,BUTTONFONTS, BACKBUTTONSTYLESHEET
-    )
-
+from styling import *
 from PySide6.QtWidgets import QPushButton, QGridLayout
+from PySide6.QtCore import Slot
 from display import LineEdit, ResultLabel
 from mainwindow import Window
 
@@ -52,13 +48,15 @@ class Layout(QPushButton):
         self.window.numericRequested.connect(
             lambda text: self.addNumericByKeyboard(text)
             )
+    Slot()
     def addNumericByKeyboard(self, text):
         if text == "." and self.display.text() == "":
             return
         self.display.insert(text)
+    Slot()
     def addOperationByKeyboard(self, text):
         displayText = self.display.text()
-        if displayText is not "":
+        if (displayText != ""):
             self._left = displayText
             self._center = text
             self.equation = f"{self._left} {self._center} {self._right}"
@@ -119,10 +117,17 @@ class Layout(QPushButton):
                                     widget,
                                     row,column,
                                     )
+    Slot()
     def _resulter(self):
-        if (self._right is None and
-        self._left is not None and
-        self._center is not None):
+        displayText = self.display.text()
+        if (displayText == ""
+                or displayText == "0"
+                or self._left is None 
+                or self._center is None):
+            return
+        if (self._right is None 
+                and self._left is not None 
+                and self._center is not None):
             self._right = self.display.text()
         self.equation = f"{self._left} {self._center} {self._right}"
         result = str(
@@ -132,7 +137,8 @@ class Layout(QPushButton):
         self.label.setText(self.equation)
         self.display.setText(result)
         self._right = None
-        print("result=",result)
+        # print("result=",result)
+    Slot()
     def _clear(self):
         self.display.clear()
         self._left = None
@@ -140,6 +146,7 @@ class Layout(QPushButton):
         self._right = None
         self.equation = ""
         self.label.setText(self.equation)  
+    Slot()
     def _buttonClick(self, numbertext,):
         """_buttonClick insert nt's text at display"""
         displayText = self.display.text()
@@ -152,6 +159,7 @@ class Layout(QPushButton):
             self._left = text
             self.equation = f"{self._left} {self._center} {self._right}"
         self.label.setText(self.equation)
+    Slot()
     def _configOperationButton(self, button:QPushButton,):
         """_operationButton gets the button's Object name
         in paramter and checks if are equals plus/minus/mult/div/del.

@@ -1,16 +1,6 @@
 from pathlib import Path
-
-__all__ = [
-    "ICONDIR",
-    "SMALL_FONT_SIZE",
-    "MEDIUM_FONT_SIZE",
-    "BIG_FONT_SIZE",
-    "TEXT_MARGIN",
-    "MINIMIUM_WIDTH"
-]
-
 ICONDIR = str(Path(__file__).parent / "assets/images/calculatoricon.ico")
-ALLOWEDCHARS = "1234567890."
+ALLOWEDCHARS = "1234567890.-"
 #Sizing
 SMALL_FONT_SIZE = 15
 MEDIUM_FONT_SIZE = 30

@@ -18,19 +18,18 @@ class Window(QMainWindow):
         KEYS = Qt.Key
         key = event.key()
         text = event.text()
-        print(event)
+        # print(event)
+        clickedEsc = (key == KEYS.Key_Escape)
+        if clickedEsc:
+            self.deleteRequested.emit()
+            return event.ignore()
+        
         clickedEnter = key in [
             KEYS.Key_Return, KEYS.Key_Enter
               ]
         if clickedEnter:
             self.resultRequested.emit()
             return event.ignore()
-        
-        clickedEsc = (key == KEYS.Key_Escape)
-        if clickedEsc:
-            self.deleteRequested.emit()
-            return event.ignore()
-        
         clickedOperation = key in [
             KEYS.Key_Plus, KEYS.Key_Minus,
               KEYS.Key_division, KEYS.Key_multiply,
@@ -46,7 +45,6 @@ class Window(QMainWindow):
         if clickedNumeric:
             self.numericRequested.emit(text)
             return event.ignore()
-        
     def adjustFixedSize(self):
         """adjustFixedSize adjusts the window in relation of icons on it.
         Also fixes to the final resolution state"""

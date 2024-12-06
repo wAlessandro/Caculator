@@ -1,11 +1,7 @@
-from PySide6.QtWidgets import QLineEdit,QLabel,QPushButton,QGridLayout,QWidget
+from PySide6.QtWidgets import QLineEdit,QLabel
 from PySide6.QtCore import Qt
-
-from styling import (
-    MAXIMUM_WIDHT, ALLOWEDCHARS, MAXIMUM_HEIGHT,
-    MEDIUM_FONT_SIZE,TEXT_MARGIN,MINIMIUM_WIDTH,BIG_FONT_SIZE,SMALL_FONT_SIZE
-)
-from mainwindow import Window
+from PySide6.QtCore import Slot
+from styling import *
 
 class LineEdit(QLineEdit):
     def __init__(self, *args, **kwargs):
@@ -13,6 +9,7 @@ class LineEdit(QLineEdit):
         self.configStyle()
         self.textChanged.connect(self._alllowedChars)
         self.setReadOnly(True)
+    Slot()
     def _alllowedChars(self):
         alltext = self.text()
         for i in alltext:
